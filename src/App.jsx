@@ -33,6 +33,8 @@ function App() {
       setBoardRes(response[1])
     }
     setIsLoading(false)
+    setError("")
+    setSolved("")
     
   }
 
