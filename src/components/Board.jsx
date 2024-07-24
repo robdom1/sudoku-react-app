@@ -4,13 +4,21 @@ import { useLoading } from "../hooks/useLoading";
 
 function Board() {
 
-  const { boardMatrix, handleOnChangeValue } = useBoard()
+  const { boardMatrix, handleOnChangeValue, solved } = useBoard()
   const { isLoading } = useLoading()
+
+  const handleChange = (row, col, el) => {
+    let newValue = el.target.value;
+    if (newValue.length > 1) {
+      newValue = newValue.slice(0, 1);
+    }
+    handleOnChangeValue(row, col, newValue);
+  };
 
     return(
       <>
         <PulseLoader  className="absolute opacity-100" loading={isLoading}/>
-        <div className={`border-4 border-gray-800 ${isLoading ? "opacity-50" :""}`}>
+        <div className={`border-4 border-gray-800 ${isLoading ? "opacity-50" :""} bg-white`}>
           
           {boardMatrix.map((row, idx) => (
             <div key={idx} className={`grid grid-cols-9`}>
@@ -24,10 +32,15 @@ function Board() {
                   <input
                     key={idx} 
                     className={`border ${rowBorders} ${colBorders} border-gray-800 text-center w-12 h-12 text-2xl bg-${cell.error ? "red-500" : "white"} disabled:bg-${cell.disableColor}`} 
-                    type="text" 
+                    type="number" 
+                    // maxLength={1}
                     value={cell.val == 0 ? "" : cell.val}
-                    disabled={cell.disabled}
-                    onChange={e => handleOnChangeValue(cell.row, cell.col, e.target.value)}
+                    disabled={cell.disabled || solved != ""}
+                    // onChange={e => handleOnChangeValue(cell.row, cell.col, e.target.value)}
+                    min="0" 
+                    max="9" 
+                    pattern="[0-9]"
+                    onInput={e => handleChange(cell.row, cell.col, e)}
                     
                   />
           

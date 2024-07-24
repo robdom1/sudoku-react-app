@@ -24,6 +24,7 @@ export function SudokuProvider ({children}) {
     const [ solved, setSolved ] = useState("")
     const [ difficulty, setDiff ] = useState(0)
     const [ isLoading, setIsLoading ] = useState(false)
+    const [ draft, setDraft ] = useState(false)
 
     return (
         <SudokuContext.Provider value={{
@@ -35,6 +36,7 @@ export function SudokuProvider ({children}) {
             boardRes, setBoardRes,
             error, setError,
             solved, setSolved,
+            draft, setDraft,
         }}>
             {children}
         </SudokuContext.Provider>

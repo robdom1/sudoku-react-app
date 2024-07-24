@@ -9,7 +9,7 @@ const Header = () => {
 
     return (
         <div className="flex flex-col justify-center items-center mt-5">
-            <h1>SUDOKU</h1>
+            <p className="text-2xl">SUDOKU</p>
             <div>
                 <Button onClick={getBoards}>Generate Board</Button>
                 <Select 

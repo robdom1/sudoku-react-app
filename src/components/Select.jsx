@@ -1,7 +1,7 @@
 const Select = ({name, onChange, valList, value}) => {
     return (
         <select 
-          className="m-4 p-2 border-2 border-gray-400"
+          className="m-4 p-2 border-2 border-gray-400 bg-white"
           name= {name}
           value={value}
           onChange={e => onChange(e.target.value)}>
