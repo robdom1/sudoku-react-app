@@ -5,6 +5,7 @@ import Header from "./components/Header"
 import { useBoard } from "./hooks/useBoard"
 import { useDraft } from "./hooks/useDraft"
 import Toggle from "./components/Toggle"
+import { useEffect } from "react"
 
 
 
@@ -19,13 +20,14 @@ function App() {
 
   const {draft, setDraft} = useDraft()
 
+
   return (
-    <div className={`flex flex-col h-screen w-screen justify-center items-center bg-${solved === "" ? "" : "green-600"}`} >
+    <div className={`flex flex-col h-screen w-screen justify-center items-center ${solved === "" ? "" : "bg-green-600"}`} >
 
       <Header/>
       
-      <Status status={error}/>
-      <Status status={solved}/>
+      <Status cName={"mb-2 text-2xl z-20 opacity-100"} status={error}/>
+      <Status cName={"absolute text-6xl z-20 opacity-100"} status={solved}/>
 
       <Board/>
 
