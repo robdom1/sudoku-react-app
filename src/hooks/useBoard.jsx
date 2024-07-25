@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { getSudoku } from "../services/sudokuService"
 import { codeToMatrix, matrixToCode } from "../utils/utils"
 import { useDiff } from "./useDiff"
@@ -9,7 +9,6 @@ import { SudokuContext } from "../contexts/Sudoku"
 
 export const useBoard = () => {
     const { 
-        emptyBoard,
         boardMatrix, setBoardMatrix, 
         boardQue, setBoardQue,
         boardRes, setBoardRes,
@@ -17,12 +16,21 @@ export const useBoard = () => {
         solved, setSolved,
     } = useContext(SudokuContext)
 
-    const { isLoading , setIsLoading } = useLoading()
+    const { setIsLoading } = useLoading()
     const { difficulty } = useDiff()
 
+    const getBoards = async () => {
+        setIsLoading(true)
+        let response = await getSudoku(difficulty)
+        let boardQue, boardRes;
+        console.log(response)
+        if(response){
+          boardQue = response[0]
+          setBoardQue(boardQue)
+          boardRes = response[1]
+          setBoardRes(boardRes)
+        }
 
-
-    useEffect(() => {
         if(boardQue){
           let initializedMatrix = 
             codeToMatrix(boardQue).map((row, rowIdx) => 
@@ -37,23 +45,6 @@ export const useBoard = () => {
                 })))
           console.log(initializedMatrix);
           setBoardMatrix(initializedMatrix)
-        }
-    },[boardQue])
-
-    useEffect(()=>{
-        if(isLoading){
-            setBoardMatrix(emptyBoard)
-        }
-    },[isLoading])
-
-    const getBoards = async () => {
-        setIsLoading(true)
-        let response = await getSudoku(difficulty)
-
-        console.log(response)
-        if(response){
-            setBoardQue(response[0])
-            setBoardRes(response[1])
         }
         setIsLoading(false)
         setError("")

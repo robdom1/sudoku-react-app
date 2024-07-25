@@ -1,5 +1,6 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useState } from "react"
+import { usePersistentState } from "../hooks/usePersistentState";
 
 export const SudokuContext = createContext();
 
@@ -17,14 +18,20 @@ export function SudokuProvider ({children}) {
           }
         )))
 
-    const [ boardQue, setBoardQue ] = useState(null)
-    const [ boardRes, setBoardRes ] = useState(null)
-    const [ boardMatrix, setBoardMatrix ] = useState(emptyBoard)
+    const [ boardQue, setBoardQue ] = usePersistentState("boardQue", null)
+    const [ boardRes, setBoardRes ] = usePersistentState("boardRes", null)
+    const [ boardMatrix, setBoardMatrix ] = usePersistentState("board", emptyBoard)
     const [ error, setError ] = useState("")
     const [ solved, setSolved ] = useState("")
-    const [ difficulty, setDiff ] = useState(0)
+    const [ difficulty, setDiff ] = usePersistentState("diff", 0)
     const [ isLoading, setIsLoading ] = useState(false)
     const [ draft, setDraft ] = useState(false)
+
+    useEffect(()=>{
+        if(isLoading){
+            setBoardMatrix(emptyBoard)
+        }
+    },[isLoading])
 
     return (
         <SudokuContext.Provider value={{
